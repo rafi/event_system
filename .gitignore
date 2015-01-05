@@ -1,0 +1,6 @@
+/.vagrant/
+/node_modules/
+/vendor/
+/*.lock
+/build/
+/bin/phpunit
