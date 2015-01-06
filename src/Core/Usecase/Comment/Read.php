@@ -26,6 +26,8 @@ class Read {
 	public function set(array $data)
 	{
 		$this->data = $data;
+
+		return $this;
 	}
 
 	public function execute()

@@ -4,6 +4,7 @@ namespace Rafi\Core\Usecase\Comment;
 use Rafi\Event;
 use Rafi\Core\Data;
 use Rafi\Core\Repository;
+use Rafi\Core\Observer;
 
 class Create {
 
@@ -15,9 +16,13 @@ class Create {
 	public function __construct(
 		Event\Bus $event,
 		Data\Comment $comment,
-		Repository\Comment $repo
+		Repository\Comment $repo,
+		Observer\Comment\Features $observer
 	)
 	{
+		// Attach the comment feature subscribers to the event-bus
+		$event->attach($observer);
+
 		$this->event = $event;
 		$this->comment = $comment;
 		$this->repo = $repo;
@@ -26,11 +31,13 @@ class Create {
 	public function set(array $data)
 	{
 		$this->data = $data;
+
+		return $this;
 	}
 
 	public function execute()
 	{
-		$this->comment->load($this->data);
+		$this->repo->hydrate($this->comment, $this->data);
 
 		// TODO: Validate
 

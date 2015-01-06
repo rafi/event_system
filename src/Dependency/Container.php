@@ -65,7 +65,7 @@ trait Container {
 			if (isset($this->dependencies[$param->name]))
 			{
 				// Fetch available DI container item (by param name)
-				$dependencies[] = $dependencies[$param->name];
+				$dependencies[] = $this->dependencies[$param->name];
 			}
 			elseif ($dependency = $param->getClass())
 			{

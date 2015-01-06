@@ -11,7 +11,7 @@ set_error_handler([ 'App\Manager', 'error_handler' ]);
 register_shutdown_function([ 'App\Manager', 'shutdown_handler' ]);
 
 // Load app-specific routes
-require APPPATH.'routes.php';
+//require APPPATH.'routes.php';
 
 $app = new App\Manager;
 

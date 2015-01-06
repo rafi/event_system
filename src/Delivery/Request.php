@@ -87,7 +87,7 @@ class Request {
 		$prefix = '\\App\\Controller\\';
 		$controller = 'Comment';
 		$this->controller = $controller;
-		$this->action = 'index';
+		$this->action = 'create';
 
 		if ( ! class_exists($prefix.$controller))
 		{
@@ -240,5 +240,73 @@ class Request {
 		}
 
 		return $uri;
+	}
+
+	/**
+	 * Gets or sets HTTP query string.
+	 *
+	 * @param   mixed   $key    Key or key value pairs to set
+	 * @param   string  $value  Value to set to a key
+	 * @return  mixed
+	 */
+	public function query($key = NULL, $value = NULL)
+	{
+		if (is_array($key))
+		{
+			// Act as a setter, replace all query strings
+			$this->get = $key;
+
+			return $this;
+		}
+
+		if ($key === NULL)
+		{
+			// Act as a getter, all query strings
+			return $this->get;
+		}
+		elseif ($value === NULL)
+		{
+			// Act as a getter, single query string
+			return $this->get[$key];
+		}
+
+		// Act as a setter, single query string
+		$this->get[$key] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Gets or sets HTTP POST parameters to the request.
+	 *
+	 * @param   mixed  $key    Key or key value pairs to set
+	 * @param   string $value  Value to set to a key
+	 * @return  mixed
+	 */
+	public function post($key = NULL, $value = NULL)
+	{
+		if (is_array($key))
+		{
+			// Act as a setter, replace all fields
+			$this->post = $key;
+
+			return $this;
+		}
+
+		if ($key === NULL)
+		{
+			// Act as a getter, all fields
+			return $this->post;
+		}
+		elseif ($value === NULL)
+		{
+			// Act as a getter, single field
+			return $this->post[$key];
+		}
+
+		// Act as a setter, single field
+		$this->post[$key] = $value;
+
+		return $this;
 	}
 }

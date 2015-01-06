@@ -69,7 +69,7 @@ class Exception extends \Exception {
 	 */
 	public static function handler(\Exception $e)
 	{
-		echo '<p>'.$e.'</p>';
+		echo '<pre>'.$e.'</pre>';
 		echo '<pre>'.$e->getTraceAsString().'</pre>';
 
 //		$response = self::_handler($e);

@@ -2,9 +2,16 @@
 namespace App;
 
 use Rafi\Dependency\Container;
+use Rafi\Event;
 
 class Manager {
 	use Container;
+
+	public function __construct()
+	{
+		// Create a singleton event bus and inject it to container
+		$this->set('event', Event\Bus::instance());
+	}
 
 	/**
 	 * @var  array  Types of errors to display at shutdown
