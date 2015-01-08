@@ -28,6 +28,8 @@ class Base {
 	 */
 	protected $action_map = [];
 
+	public $base_url = '/';
+
 	/**
 	 * Creates a new controller instance. Each controller must be constructed
 	 * with the request object that created it.

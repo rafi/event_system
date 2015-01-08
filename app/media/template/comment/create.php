@@ -1,3 +1,3 @@
 <p>
-Comment CREATE
+Your comment has been saved.
 </p>

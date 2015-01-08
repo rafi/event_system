@@ -39,11 +39,17 @@ class Create {
 	{
 		$this->repo->hydrate($this->comment, $this->data);
 
-		// TODO: Validate
+		// Validation
+		if (empty($this->comment->body))
+			throw new Exception('Email is mandatory');
 
+		// Trigger event
 		$this->event->trigger('submit', [ $this->comment ]);
+
+		// Write to persistency layer
 		$this->repo->create($this->comment);
 
+		// Return simple data fields
 		return get_object_vars($this->comment);
 	}
 

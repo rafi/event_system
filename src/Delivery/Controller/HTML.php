@@ -23,7 +23,7 @@ abstract class HTML extends Base {
 	/**
 	 * Child controllers must use render traits
 	 */
-	abstract protected function render($template, $content);
+	abstract protected function render($template);
 
 	public function after()
 	{
@@ -37,7 +37,7 @@ abstract class HTML extends Base {
 		elseif (is_object($this->view))
 		{
 			$this->response->body(
-				$this->render($this->template, $this->view)
+				$this->render($this->template)
 			);
 		}
 	}

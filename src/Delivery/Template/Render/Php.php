@@ -13,7 +13,7 @@ trait PHP {
 	/**
 	 * Implement render
 	 */
-	protected function render($template, $data)
+	protected function render($template)
 	{
 		$template = rtrim($this->template_dir, '/')
 			.DIRECTORY_SEPARATOR

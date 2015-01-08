@@ -36,6 +36,7 @@ class Comment extends Delivery\Controller\HTML {
 	)
 	{
 		$comment = $this->request->post();
+
 		$output = $usecase
 			->set($comment)
 			->execute();

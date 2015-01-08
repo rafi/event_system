@@ -1,11 +1,28 @@
 <?php
 namespace App\View\Comment;
 
-class Read {
+use App\View\Layout;
 
-	public function set($comment)
+class Read extends Layout {
+
+	protected $comments;
+
+	public function set(\ArrayAccess $comments)
 	{
+		$this->comments = $comments;
+
 		return $this;
+	}
+
+	public function comments()
+	{
+		$result = [];
+		foreach ($this->comments as $comment)
+		{
+			$result[] = get_object_vars($comment);
+		}
+
+		return $result;
 	}
 
 }

@@ -10,17 +10,17 @@ set_exception_handler([ 'App\Exception', 'handler' ]);
 set_error_handler([ 'App\Manager', 'error_handler' ]);
 register_shutdown_function([ 'App\Manager', 'shutdown_handler' ]);
 
-// Load app-specific routes
-//require APPPATH.'routes.php';
-
 $config = include APPPATH.'config/database.php';
 $app = new App\Manager($config);
 
+// Load app-specific routes
+$routes = include APPPATH.'config/routes.php';
+
 echo (new Rafi\Delivery\Request([
 		'app' => $app,
-		'base_url' => '/srv/http',
+		'base_url' => '/event_system/srv/http',
+		'routes' => $routes,
 		'template_dir' => APPPATH.'media/template'
 	]))
 	->execute()
-//	->send_headers()
 	->body();

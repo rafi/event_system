@@ -28,6 +28,10 @@ class Comment extends Repository {
 			':body' => $object->body,
 		];
 
+		array_walk($params, function (& $value, $key) {
+			$value = $this->database->quote($value);
+		});
+
 		$sql = strtr('
 			INSERT INTO comments (parent_id, email, body)
 			VALUES (:parent_id, :email, :body)

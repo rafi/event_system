@@ -36,6 +36,11 @@ class Request {
 	protected $parameters = [];
 
 	/**
+	 * @var  string  $prefix  namespace prefix
+	 */
+	protected $prefix;
+
+	/**
 	 * @var  string  $controller  controller to be executed
 	 */
 	protected $controller;
@@ -49,6 +54,20 @@ class Request {
 	 * @var  string  $uri  the URI of the request
 	 */
 	protected $uri;
+
+	protected $routes = [];
+
+	// Matches a URI group and captures the contents
+	const REGEX_GROUP   = '\(((?:(?>[^()]+)|(?R))*)\)';
+
+	// Defines the pattern of a <segment>
+	const REGEX_KEY     = '<([a-zA-Z0-9_]++)>';
+
+	// What can be part of a <segment> value
+	const REGEX_SEGMENT = '[^/.,;?\n]++';
+
+	// What must be escaped in the route regex
+	const REGEX_ESCAPE  = '[.\\+*?[^\\]${}=!|]';
 
 	/**
 	 * Creates a new request instance
@@ -76,6 +95,18 @@ class Request {
 		// Query and post parameters
 		$this->get = $_GET;
 		$this->post = $_POST;
+
+		$this->uri = $this->detect_uri();
+
+		if (isset($parameters['routes']))
+		{
+			$this->routes = $parameters['routes'];
+		}
+
+		if (isset($parameters['base_ur']))
+		{
+			$parameters['base_ur'] = rtrim($parameters['base_url'], '/').'/';
+		}
 	}
 
 	/**
@@ -84,18 +115,31 @@ class Request {
 	public function execute()
 	{
 		$response = new Response([ 'protocol' => $this->protocol ]);
-		$prefix = '\\App\\Controller\\';
-		$controller = 'Comment';
-		$this->controller = $controller;
-		$this->action = 'index';
 
-		if ( ! class_exists($prefix.$controller))
+		$prefix = '';
+		$controller = '';
+		foreach ($this->routes as $route => $route_params)
+		{
+			$route_regex = $this->compile($route);
+			if ($match = $this->matches($route_regex, $route_params))
+			{
+				$prefix = '\\'.$match['prefix'].'\\';
+				$controller = $match['controller'];
+				$action = isset($match['action']) ? $match['action'] : 'index';
+			}
+		}
+
+		if (empty($controller) || ! class_exists($prefix.$controller))
 		{
 			throw new Exception(
 				'The requested URL :uri was not found on this server.',
-				[ ':uri' => $request->uri() ]
+				[ ':uri' => $this->uri() ]
 			);
 		}
+
+		$this->prefix = $prefix;
+		$this->controller = $controller;
+		$this->action = $action;
 
 		// Load the controller using reflection
 		$class = new ReflectionClass($prefix.$controller);
@@ -167,11 +211,9 @@ class Request {
 	 * Automatically detects the URI of the main request using PATH_INFO,
 	 * REQUEST_URI, PHP_SELF or REDIRECT_URL.
 	 *
-	 *     $uri = Request::detect_uri();
-	 *
-	 * @return  string  URI of the main request
+	 * @return  string
 	 */
-	public static function detect_uri()
+	public function detect_uri()
 	{
 		if ( ! empty($_SERVER['PATH_INFO']))
 		{
@@ -308,5 +350,87 @@ class Request {
 		$this->post[$key] = $value;
 
 		return $this;
+	}
+
+	/**
+	 * Returns the compiled regular expression for the route. This translates
+	 * keys and optional groups to a proper PCRE regular expression.
+	 *
+	 * @return  string
+	 */
+	public static function compile($uri, array $regex = NULL)
+	{
+		// The URI should be considered literal except for keys and optional parts
+		// Escape everything preg_quote would escape except for : ( ) < >
+		$expression = preg_replace('#'.self::REGEX_ESCAPE.'#', '\\\\$0', $uri);
+
+		if (strpos($expression, '(') !== FALSE)
+		{
+			// Make optional parts of the URI non-capturing and optional
+			$expression = str_replace(array('(', ')'), array('(?:', ')?'), $expression);
+		}
+
+		// Insert default regex for keys
+		$expression = str_replace(array('<', '>'), array('(?P<', '>'.self::REGEX_SEGMENT.')'), $expression);
+
+		if ($regex)
+		{
+			$search = $replace = array();
+			foreach ($regex as $key => $value)
+			{
+				$search[]  = "<$key>".self::REGEX_SEGMENT;
+				$replace[] = "<$key>$value";
+			}
+
+			// Replace the default regex with the user-specified regex
+			$expression = str_replace($search, $replace, $expression);
+		}
+
+		return '#^'.$expression.'$#uD';
+	}
+
+	/**
+	 * Tests if the route matches a given Request. A successful match will return
+	 * all of the routed parameters as an array. A failed match will return
+	 * boolean FALSE.
+	 *
+	 * @return  array|boolean
+	 */
+	public function matches($route_regex, array $defaults = [])
+	{
+		$uri = trim($this->uri(), '/');
+
+		if ( ! preg_match($route_regex, $uri, $matches))
+			return FALSE;
+
+		$params = array();
+		foreach ($matches as $key => $value)
+		{
+			if (is_int($key))
+			{
+				// Skip all unnamed keys
+				continue;
+			}
+
+			// Set the value for all matched keys
+			$params[$key] = $value;
+		}
+
+		foreach ($defaults as $key => $value)
+		{
+			if ( ! isset($params[$key]) OR $params[$key] === '')
+			{
+				// Set default values for any key that was not matched
+				$params[$key] = $value;
+			}
+		}
+
+		if ( ! empty($params['controller']))
+		{
+			// PSR-0: Replace underscores with spaces, run ucwords, then replace underscore
+			$params['controller'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', $params['controller'])));
+		}
+
+		return $params;
 	}
 }
