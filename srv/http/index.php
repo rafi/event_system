@@ -13,7 +13,8 @@ register_shutdown_function([ 'App\Manager', 'shutdown_handler' ]);
 // Load app-specific routes
 //require APPPATH.'routes.php';
 
-$app = new App\Manager;
+$config = include APPPATH.'config/database.php';
+$app = new App\Manager($config);
 
 echo (new Rafi\Delivery\Request([
 		'app' => $app,

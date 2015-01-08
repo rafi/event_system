@@ -6,7 +6,7 @@ namespace Rafi\Event;
  */
 class Bus {
 
-	protected static $instance = null;
+	protected static $instance;
 
 	/**
 	 * Returns singleton instance statically
@@ -17,6 +17,7 @@ class Bus {
 		{
 			static::$instance = new static;
 		}
+
 		return static::$instance;
 	}
 
@@ -65,7 +66,10 @@ class Bus {
 				// back into the events container (by reference).
 				if (is_string($subscriber))
 				{
-					$subscriber = [ new $subscriber, 'execute' ];
+					$subscriber = [
+						new $subscriber($arguments),
+						'execute'
+					];
 				}
 
 				// Execute the subscribers' event

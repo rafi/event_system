@@ -87,7 +87,7 @@ class Request {
 		$prefix = '\\App\\Controller\\';
 		$controller = 'Comment';
 		$this->controller = $controller;
-		$this->action = 'create';
+		$this->action = 'index';
 
 		if ( ! class_exists($prefix.$controller))
 		{

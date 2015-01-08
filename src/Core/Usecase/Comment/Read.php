@@ -32,7 +32,7 @@ class Read {
 
 	public function execute()
 	{
-		$collection = $this->repo->find_all($this->comment);
+		$collection = $this->repo->find_all([], $this->comment);
 
 		$this->event->trigger('read', [ $collection ]);
 

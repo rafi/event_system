@@ -1,8 +1,14 @@
 <?php
 namespace Rafi\Storage\MySQL;
 
-use Rafi\Storage\RDBMS;
+use Rafi\Storage\DataMapper;
 
-class Repository extends RDBMS {
+class Repository {
+	use DataMapper;
+
+	public function __construct(Database $database)
+	{
+		$this->database = $database;
+	}
 
 }
