@@ -5,9 +5,9 @@
 </p>
 
 <form action="<?php echo $this->base_url ?>/comment/create" method="POST">
-	<fieldset style="width: 200px">
+	<fieldset style="width: 300px">
 		<legend>Add a Comment:</legend>
-		<input name="email" type="text" placeholder="Email here" style="width: 100%" />
+		<input name="email" type="email" placeholder="Email here" style="width: 100%" />
 		<textarea name="body" placeholder="Your comment here" style="width: 100%; height: 100px"></textarea>
 		<button type="submit">Post</button>
 	</fieldset>

@@ -16,9 +16,15 @@ class Read extends Layout {
 
 	public function comments()
 	{
+		// TODO Should be implemented as partials in a template rendering engine.
+		$partials = [
+			'{{smiley}}' => '<img src="../../app/media/img/smiley.png" />'
+		];
+
 		$result = [];
 		foreach ($this->comments as $comment)
 		{
+			$comment->body = strtr($comment->body, $partials);
 			$result[] = get_object_vars($comment);
 		}
 

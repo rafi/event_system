@@ -42,33 +42,4 @@ abstract class HTML extends Base {
 		}
 	}
 
-	public function assets()
-	{
-		$escaped = 'window.pass = '.json_encode($this->environment()).';';
-		$assets = '<script type="text/javascript">'.$escaped.'</script>'.PHP_EOL;
-
-		return $assets;
-	}
-
-	public function environment()
-	{
-		return [
-			'route' => [
-				'name'       => $this->request->route(),
-				'directory'  => $this->request->directory(),
-				'controller' => strtolower($this->request->controller()),
-				'action'     => $this->request->action()
-			],
-			'url' => [
-				'full'   => URL::base('http'),
-				'base'   => URL::base(),
-				'media'  => URL::base().Media::uri('/').'/',
-			],
-			'lang' => [
-				'current' => 'en-US'
-			],
-			'environment' => ENVNAME,
-		];
-	}
-
 }

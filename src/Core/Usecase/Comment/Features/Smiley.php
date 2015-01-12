@@ -11,8 +11,9 @@ class Smiley {
 	{
 	}
 
-	public function execute()
+	public function execute($comment)
 	{
+		$comment->body = str_replace(':)', '{{smiley}}', $comment->body);
 	}
 
 }
