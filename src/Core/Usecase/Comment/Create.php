@@ -5,6 +5,7 @@ use Rafi\Event;
 use Rafi\Core\Data;
 use Rafi\Core\Repository;
 use Rafi\Core\Observer;
+use Exception;
 
 class Create {
 
@@ -40,7 +41,7 @@ class Create {
 		$this->repo->hydrate($this->comment, $this->data);
 
 		// Validation
-		if (empty($this->comment->body))
+		if (empty($this->comment->email))
 			throw new Exception('Email is mandatory');
 
 		// Trigger event

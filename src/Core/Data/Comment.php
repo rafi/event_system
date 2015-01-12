@@ -8,4 +8,10 @@ class Comment {
 	public $email;
 	public $body;
 
+	public function __construct($body = NULL, $email = NULL)
+	{
+		$this->body = $body;
+		$this->email = $email;
+	}
+
 }
