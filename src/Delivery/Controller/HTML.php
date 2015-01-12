@@ -40,6 +40,10 @@ abstract class HTML extends Base {
 				$this->render($this->template)
 			);
 		}
+		elseif (is_string($this->view))
+		{
+			$this->response->body($this->view);
+		}
 	}
 
 }

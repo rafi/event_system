@@ -9,5 +9,8 @@
     <testsuite name="event">
 			<directory>tests/Event</directory>
     </testsuite>
+    <testsuite name="event">
+			<directory>tests/Delivery</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

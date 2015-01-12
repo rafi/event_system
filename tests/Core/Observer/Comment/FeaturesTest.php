@@ -9,10 +9,17 @@ class FeaturesTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp()
 	{
-		$this->features = [
-			new Data\Feature('comment', 'Foobar', 'submit'),
-			new Data\Feature('article', 'Barbaz', 'delete'),
-		];
+		$feature_a = new Data\Feature;
+		$feature_a->entity = 'comment';
+		$feature_a->name = 'Foobar';
+		$feature_a->event = 'submit';
+
+		$feature_b = new Data\Feature;
+		$feature_b->entity = 'article';
+		$feature_b->name = 'Barbaz';
+		$feature_b->event = 'delete';
+
+		$this->features = [ $feature_a, $feature_b ];
 	}
 
 	public function tearDown()

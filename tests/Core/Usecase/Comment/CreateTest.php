@@ -8,7 +8,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase {
 	public function testCanBeExecuted()
 	{
 		$data = [ 'body' => 'Foobar', 'email' => 'foo@bar.com' ];
-		$comment = new Data\Comment($data['body'], $data['email']);
+		$comment = new Data\Comment;
+		$comment->body = $data['body'];
+		$comment->email = $data['email'];
 
 		$event = $this->getMockBuilder('Rafi\Event\Bus')
 			->disableOriginalConstructor()
