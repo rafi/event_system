@@ -9,4 +9,11 @@ class Feature {
 	public $event;
 	public $title;
 
+	public function __construct($entity = NULL, $name = NULL, $event = NULL)
+	{
+		$this->entity = $entity;
+		$this->name = $name;
+		$this->event = $event;
+	}
+
 }

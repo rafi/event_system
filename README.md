@@ -29,6 +29,8 @@ CREATE TABLE features (
 INSERT INTO features (entity, name, event, title) VALUES ('comment', 'Smiley', 'submit', 'Smiley replacements');
 ```
 
+- Run `composer install` for autoloader and phpunit
 - Configure database username/password at `app/config/database.php`
 - An `.htaccess` at `srv/http` directs all requests to `index.php`
 - Run in browser: http://localhost/event_system/srv/http
+- Run tests: `bin/phpunit`

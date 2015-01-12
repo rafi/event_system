@@ -5,7 +5,7 @@ use Rafi\Storage\MySQL\Repository;
 use Rafi\Storage\Database;
 
 class Comment extends Repository {
-	
+
 	public function get($data)
 	{
 		throw new \Exception('Not implemented.');
