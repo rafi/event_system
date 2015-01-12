@@ -1,6 +1,8 @@
 <?php
 namespace Rafi\Dependency;
 
+use Exception;
+
 trait Container {
 
 	protected $dependencies;
@@ -20,7 +22,6 @@ trait Container {
 	 *
 	 * @param  string  $concrete  The name of the class to build
 	 * @return mixed   The instantiated class
-	 * @throws InvalidArgument
 	 */
 	public function build($concrete)
 	{
@@ -32,7 +33,7 @@ trait Container {
 		$reflection = new \ReflectionClass($concrete);
 
 		if ( ! $reflection->isInstantiable())
-			throw new InvalidArgument(
+			throw new Exception(
 					'Class :name is not instantiable.', [ ':name' => $concrete ]
 			);
 

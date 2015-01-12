@@ -3,5 +3,11 @@
     <testsuite name="core">
 			<directory>tests/Core</directory>
     </testsuite>
+    <testsuite name="dependency">
+			<directory>tests/Dependency</directory>
+    </testsuite>
+    <testsuite name="event">
+			<directory>tests/Event</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
