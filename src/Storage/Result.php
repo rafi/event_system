@@ -1,8 +1,6 @@
 <?php
 namespace Rafi\Storage;
 
-use Exception;
-
 abstract class Result implements \Countable, \Iterator, \SeekableIterator, \ArrayAccess {
 
 	// Executed SQL for this result

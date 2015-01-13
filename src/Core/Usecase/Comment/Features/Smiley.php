@@ -11,6 +11,7 @@ class Smiley {
 
 	public function set()
 	{
+		return $this;
 	}
 
 	public function execute($comment)

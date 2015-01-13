@@ -51,4 +51,28 @@ class CommentTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($result);
 	}
 
+	public function testCanGet()
+	{
+		$this->setExpectedException('\Exception');
+
+		$db = $this->getMockBuilder('Rafi\Storage\MySQL\Database')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$repo = new Comment($db);
+		$repo->get([]);
+	}
+
+	public function testCanDelete()
+	{
+		$this->setExpectedException('\Exception');
+
+		$db = $this->getMockBuilder('Rafi\Storage\MySQL\Database')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$repo = new Comment($db);
+		$repo->delete([]);
+	}
+
 }

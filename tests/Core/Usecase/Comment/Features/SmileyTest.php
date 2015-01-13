@@ -11,7 +11,7 @@ class SmileyTest extends \PHPUnit_Framework_TestCase {
 		$comment->body = 'Hey :) there';
 
 		$feature = new Smiley;
-		$feature->execute($comment);
+		$feature->set()->execute($comment);
 
 		$this->assertEquals('Hey '.Smiley::PARTIAL.' there', $comment->body);
 	}

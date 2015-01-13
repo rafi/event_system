@@ -7,8 +7,8 @@ define('APP_START_MEMORY', memory_get_usage());
 
 ob_start();
 set_exception_handler([ 'App\Exception', 'handler' ]);
-set_error_handler([ 'App\Manager', 'error_handler' ]);
-register_shutdown_function([ 'App\Manager', 'shutdown_handler' ]);
+set_error_handler([ 'App\Exception', 'error_handler' ]);
+register_shutdown_function([ 'App\Exception', 'shutdown_handler' ]);
 
 $config = include APPPATH.'config/database.php';
 $app = new App\Manager($config);

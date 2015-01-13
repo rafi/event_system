@@ -7,7 +7,12 @@ class Read extends Layout {
 
 	protected $comments;
 
-	public function set(\ArrayAccess $comments)
+	// TODO Should be implemented as partials in a template rendering engine.
+	const PARTIALS = [
+		'{{smiley}}' => '<img src="../../app/media/img/smiley.png" />'
+	];
+
+	public function set($comments)
 	{
 		$this->comments = $comments;
 
@@ -16,16 +21,13 @@ class Read extends Layout {
 
 	public function comments()
 	{
-		// TODO Should be implemented as partials in a template rendering engine.
-		$partials = [
-			'{{smiley}}' => '<img src="../../app/media/img/smiley.png" />'
-		];
 
 		$result = [];
 		foreach ($this->comments as $comment)
 		{
-			$comment->body = strtr($comment->body, $partials);
-			$result[] = get_object_vars($comment);
+			$item = get_object_vars($comment);
+			$item['body'] = strtr($item['body'], self::PARTIALS);
+			$result[] = $item;
 		}
 
 		return $result;

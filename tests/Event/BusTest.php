@@ -54,7 +54,8 @@ class BusTest extends \PHPUnit_Framework_TestCase {
 
 }
 
-class Dummy {
+class Dummy implements ObserverInterface {
 	public function bar() {}
+	public function get_subscribers() {}
 	public function execute() {}
 }

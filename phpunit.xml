@@ -12,5 +12,8 @@
     <testsuite name="event">
 			<directory>tests/Delivery</directory>
     </testsuite>
+    <testsuite name="app">
+			<directory>tests/App</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
