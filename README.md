@@ -1,6 +1,17 @@
 Event-based Delivery System
 ---
 
+## Overview
+
+- Public web-server folder: [srv/http](./srv/http)
+- Delivery implementation: [app/](./app)
+- Business rules: [src/Core](./src/Core)
+- Event-Bus: [src/Event](./src/Event)
+- Delivery mechanism: [src/Delivery](./src/Delivery)
+- Dependency Injection Container: [src/Dependency](./src/Dependency)
+- Storage: [src/Storage](./src/Storage)
+
+## Setup
 Database script, execute with MySQL/Percona/MariaDB:
 ```
 CREATE DATABASE event_system CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -32,5 +43,7 @@ INSERT INTO features (entity, name, event, title) VALUES ('comment', 'Smiley', '
 - Run `composer install` for autoloader and phpunit
 - Configure database username/password at `app/config/database.php`
 - An `.htaccess` at `srv/http` directs all requests to `index.php`
-- Run in browser: http://localhost/event_system/srv/http
+- Run in browser: `http://localhost/event_system/srv/http`
+
+## Tests
 - Run tests: `bin/phpunit`
